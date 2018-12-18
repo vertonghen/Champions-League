@@ -1,0 +1,77 @@
+function main(){
+    const teamAMap = new Map();
+    teamAMap.set("Dortmund"   , "GER");
+    teamAMap.set("Barcelona"  , "SPA");
+    teamAMap.set("Paris"      , "FRA");
+    teamAMap.set("Porto"      , "POT");
+    teamAMap.set("Bayern"     , "GER");
+    teamAMap.set("ManCity"    , "ENG");
+    teamAMap.set("RealMadrid" , "SPA");
+    teamAMap.set("Juventus"   , "ITA");
+    const teamBMap = new Map();
+    teamBMap.set("Atletico" , "SPA");
+    teamBMap.set("Tottenham", "ENG");
+    teamBMap.set("Liverpool", "ENG");
+    teamBMap.set("Schalke"  , "GER");
+    teamBMap.set("Ajax"     , "NET");
+    teamBMap.set("Lyon"     , "FRA");
+    teamBMap.set("Roma"     , "ITA");
+    teamBMap.set("ManUnited", "ENG");
+    const groupA = Array.from(teamAMap.keys())
+    const groupB = Array.from(teamBMap.keys())
+    let result = new arrange(groupA, groupB, teamAMap, teamBMap);
+    
+    let count = 0;
+    for(let k = 0; k < result.result.length; k++){
+        for(let m = 0; m < 8; m++){
+            if(result.result[k][m] == "Tottenham--vs--Dortmund"){
+                count++;
+            }
+        }
+    }
+    console.log(count/result.len)
+    console.log(result.result);
+    console.log(result.len)
+}
+class arrange{
+    constructor(arrA, arrB, mapA, mapB){
+        this.groupA  = mapA;
+        this.groupB  = mapB;
+        this.arrRegulationA = Array.from(arrA);
+        this.arrRegulationB = Array.from(arrB);
+        this.arrA = Array.from(arrA);
+        this.arrB = Array.from(arrB);
+        this.temp = [];
+        this.result = [];
+        this.regulationOne = true;
+        this.regulationTwo = true;
+        this.len = 0;
+        this.run(0);
+    }
+    run(index){
+        if(index == this.arrB.length - 1){
+            this.regulationOne = true;
+            this.regulationTwo = true;
+            for(let j = 0; j < this.arrB.length; j++){
+                this.temp[j] = this.arrB[j] + "--vs--" + this.arrA[j];
+                if(this.arrRegulationB.indexOf(this.arrB[j]) == j){
+                    this.regulationOne = false;
+                }
+                if(this.groupB.get(this.arrB[j]) == this.groupA.get(this.arrA[j])){
+                    this.regulationTwo = false;
+                }
+            }
+            if(this.regulationOne && this.regulationTwo){
+                this.result.push(Array.from(this.temp));
+                this.len++;
+            }
+            this.temp.length = 0;
+            return
+        }
+        for(let i = index; i < this.arrB.length; i++){
+            [this.arrB[index], this.arrB[i]] = [this.arrB[i], this.arrB[index]];
+            this.run(index + 1);
+            [this.arrB[index], this.arrB[i]] = [this.arrB[i], this.arrB[index]];
+        }
+    }
+}
