@@ -1,0 +1,39 @@
+function main(){
+    const teamMap = new Map();
+    teamMap.set("Barcelona", "SPA");
+    teamMap.set("Porto"    , "POT");
+    teamMap.set("ManCity"  , "ENG");
+    teamMap.set("Juventus" , "ITA");
+    teamMap.set("Tottenham", "ENG");
+    teamMap.set("Liverpool", "ENG");
+    teamMap.set("Ajax"     , "NET");
+    teamMap.set("ManUnited", "ENG");
+    const group = Array.from(teamMap.keys());
+    let result = new arrange(group);
+    let output = result.result;
+    console.log(Object.getOwnPropertyNames(output).length);
+}
+class arrange{
+    constructor(arr){
+        this.arr = Array.from(arr);
+        this.result = {};
+        this.run(0);
+    }
+    run(index){
+        if (index === this.arr.length - 1) {
+            let tempArr = Array.from(this.arr);
+            let temp = [[tempArr[0], tempArr[1]].sort(),
+                        [tempArr[2], tempArr[3]].sort(),
+                        [tempArr[4], tempArr[5]].sort(),
+                        [tempArr[6], tempArr[7]].sort()].sort();
+            if(!this.result[temp]) this.result[temp] = temp;
+            return;
+        }
+        for(let i = index; i < this.arr.length; i++) {
+            [this.arr[index], this.arr[i]] = [this.arr[i], this.arr[index]];
+            this.run(index + 1);
+            [this.arr[index], this.arr[i]] = [this.arr[i], this.arr[index]];
+        }
+    }
+}
+main();
