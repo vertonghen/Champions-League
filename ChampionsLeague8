@@ -13,6 +13,7 @@ function main(){
     let output = result.result;
     console.log(Object.getOwnPropertyNames(output).length);
 }
+
 class arrange{
     constructor(arr){
         this.arr = Array.from(arr);
@@ -22,10 +23,16 @@ class arrange{
     run(index){
         if (index === this.arr.length - 1) {
             let tempArr = Array.from(this.arr);
-            let temp = [[tempArr[0], tempArr[1]].sort(),
-                        [tempArr[2], tempArr[3]].sort(),
-                        [tempArr[4], tempArr[5]].sort(),
-                        [tempArr[6], tempArr[7]].sort()].sort();
+            let temp = [
+                [
+                    [tempArr[0], tempArr[1]].sort(),
+                    [tempArr[2], tempArr[3]].sort(),
+                ].sort(),
+                [
+                    [tempArr[4], tempArr[5]].sort(),
+                    [tempArr[6], tempArr[7]].sort()
+                ].sort()
+            ].sort();
             if(!this.result[temp]) this.result[temp] = temp;
             return;
         }
